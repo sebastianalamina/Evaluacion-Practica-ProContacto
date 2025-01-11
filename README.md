@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://www.procontacto.com.mx/">
-    <img src="https://www.procontacto.com.mx/webruntime/org-asset/a375585cea/resource/081UX0000000SpT" alt="Logo ProContacto" title="ProContacto" height="50" />
+    <img src="img/Logo ProContacto.svg" alt="Logo ProContacto" title="ProContacto" height="50" />
   </a>
 </p>
 
@@ -16,21 +16,17 @@
 
 ## Tabla de contenidos :clipboard:
 
-- [Autor](#autor-)
-- [Ejercicio 2](#ejercicio-2-)
-- [Ejercicio 3](#ejercicio-3-)
-- [Ejercicio 4](#ejercicio-4-)
-- [Ejercicio 5](#ejercicio-5-)
-- [Ejercicio 6](#ejercicio-6-)
-- [Ejercicio 7](#ejercicio-7-)
+- [Autor](#autor-bust_in_silhouette)
+- [Ejercicio 2](#ejercicio-2-heavy_check_mark)
+- [Ejercicio 3](#ejercicio-3-heavy_check_mark)
+- [Ejercicio 4](#ejercicio-4-heavy_check_mark)
+- [Ejercicio 5](#ejercicio-5-heavy_check_mark)
+- [Ejercicio 6](#ejercicio-6-heavy_check_mark)
+- [Ejercicio 7](#ejercicio-7-heavy_check_mark)
 
 ## Autor :bust_in_silhouette:
 
 - [sebastianalamina](https://github.com/sebastianalamina) (Sebastián Alamina)
-
-## Ejecución :computer:
-
-...
 
 ## Ejercicio 2 :heavy_check_mark:
 
@@ -158,7 +154,7 @@
 
     Considerando que una arquitectura de software indica la estructura, funcionamiento y demás reglas que debe cumplir cierto software al momento de ser creado, se puede decir que REST (_REpresentational State Transfer_) es un estilo de arquitectura de software para crear APIs/servicios web **RESTful**. Está basado en HTTP, por lo que estos servicios web usan los métodos/verbos HTTP.
 
-    Igual que el estándar SOAP, estos servicios web RESTful proveen interoperabilidad entre aplicaciones de diferentes lenguajes de programación y tecnologías, permitendo a los clientes accesar y manipular representaciones textuales de los recursos en la web.
+    Igual que el estándar SOAP, estos servicios web RESTful proveen interoperabilidad entre aplicaciones de diferentes lenguajes de programación y tecnologías, permitiendo a los clientes accesar y manipular representaciones textuales de los recursos en la web.
 
     El estándar REST define ciertas restricciones que deben seguirse para que una API sea considerada **RESTful**...
 
@@ -245,10 +241,6 @@ En el siguiente diagrama se relacionan los objetos aquí descritos. A considerar
 <img src="img/ej05-00.png" alt="Ejercicio 5 - Diagrama de relaciones" title="Diagrama de relaciones" width="100%" />
 
 ## Ejercicio 6 :heavy_check_mark:
-
-<style type="text/css">
-  h3 + ol { list-style-type: upper-alpha; }
-</style>
 
 ### Soluciones de Salesforce
 
