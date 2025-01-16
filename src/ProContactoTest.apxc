@@ -1,0 +1,91 @@
+// Testea las funcionalidades diseñadas para el ejercicio 7
+// de la evaluación práctica presentada para ProContacto...
+@isTest
+public class ProContactoTest {
+    
+    // Testeo del trigger que actualiza el correo cuando se indica el ID ProContacto
+    // propio en algún Contact. Si bien esta función no puede corroborar los cambios
+    // realizados en los campos de correo (debido a la naturaleza asíncrona de los eventos),
+    // ayuda a corroborar que no existan errores al crear/actualizar Contactos.
+    @isTest static void TestProContactoTrigger() {
+        
+        // Definición del mock para una respuesta correcta por parte del ws.
+        StaticResourceCalloutMock mock = new StaticResourceCalloutMock();
+        mock.setStaticResource('GetProContactoResource');
+        mock.setStatusCode(200);
+        Test.setMock(HttpCalloutMock.class, mock);
+        
+        // Creación de varios Contactos con distintos
+        // valores aleatorios para el campo 'idprocontacto'.
+        List<Contact> contacts = new List<Contact>();
+        for (Integer i = 0; i < 200; i++) {
+            Contact c = new Contact(LastName = 'Test ' + i);
+            c.idprocontacto__c = chooseRandomProContactoId();
+            contacts.add(c);
+        }
+        insert contacts;
+        
+        // Comprobación no posible debido a naturaleza asíncrona.
+        //for (Contact c : contacts) {
+        //    if (c.idprocontacto__c == ProContactoGlobal.MyIdProContacto) {
+        //        Assert.areEqual('sebastian.alamina@procontacto.com.mx', c.Email);
+        //    }
+        //}
+        
+        // Actualización aleatoria de los campos 'idprocontacto'
+        // de los Contactos creados previamente.
+        for (Contact c : contacts) {
+            c.idprocontacto__c = chooseRandomProContactoId();
+        }
+        update contacts;
+        
+        // Comprobación no posible debido a naturaleza asíncrona.
+        //for (Contact c : contacts) {
+        //    if (c.idprocontacto__c == ProContactoGlobal.MyIdProContacto) {
+        //        Assert.areEqual('sebastian.alamina@procontacto.com.mx', c.Email);
+        //    }
+        //}
+    }
+    
+    // Devuelve, de manera aleatoria, uno de los siguientes
+    // valores para utilizar en los campos 'idprocontacto':
+    // - Un valor nulo.
+    // - El ID ProContacto válido propio.
+    // - El ID ProContacto válido de otra persona.
+    // - Un ID ProContacto inválido (que no viene como respuesta en el ws).
+    private static String chooseRandomProContactoId() {
+        String[] possibleProContactoIds = new String[]{null,
+            ProContactoGlobal.MyIdProContacto,
+            ProContactoGlobal.SomeoneElsesIdProContacto,
+            ProContactoGlobal.NobodysIdProContacto
+            };
+                return possibleProContactoIds[(Integer)(Math.floor(Math.random() * possibleProContactoIds.size()))];
+    }
+    
+    // Testeo de la función que, dado un ID ProContacto,
+    // devuelve el correo correspondiente.
+    @isTest static void TestGetEmailFromProContacto() {
+        
+        // Definición del mock para una respuesta exitosa.
+        StaticResourceCalloutMock mock = new StaticResourceCalloutMock();
+        mock.setStaticResource('GetProContactoResource');
+        mock.setStatusCode(200);
+        //mock.setHeader('Content-Type', 'application/json;charset=UTF-8');
+        
+        // Caso exitoso al 100%.
+        Test.setMock(HttpCalloutMock.class, mock);
+        String result200 = ProContactoHandler.GetEmailFromProContacto(ProContactoGlobal.MyIdProContacto);
+        Assert.areEqual('sebastian.alamina@procontacto.com.mx', result200);
+        
+        // Caso cuando no se provee un ID correcto.
+        Test.setMock(HttpCalloutMock.class, mock);
+        String result_param_erroneo = ProContactoHandler.GetEmailFromProContacto('un_id_erróneo');
+        Assert.areEqual(null, result_param_erroneo);
+        
+        // Caso cuando el web service falla (es necesario cambiar el mock).
+        mock.setStatusCode(500);
+        Test.setMock(HttpCalloutMock.class, mock);
+        String result500 = ProContactoHandler.GetEmailFromProContacto(ProContactoGlobal.MyIdProContacto);
+        Assert.areEqual(null, result500);
+    }
+}

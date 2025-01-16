@@ -1,0 +1,69 @@
+// Ejercicio 7 de la evaluación práctica presentada para ProContacto.
+public class ProContactoHandler implements Queueable, Database.AllowsCallouts {
+    
+    // Contactos cuyos correos serán actualizados.
+    private List<Contact> contactsToUpdate;
+    
+    // Constructor, donde se deben pasar los contactos a procesar.
+    // Se espera que esta lista de contactos sea no vacía, y se
+    // destaca que los correos de TODOS los contactos de la lista
+    // serán actualizados (sin algún tipo de filtrado de Contactos).
+    public ProContactoHandler(List<Contact> contacts) {
+        contactsToUpdate = contacts;
+    }
+    
+    // Función que realiza la actualización correspondiente de
+    // manera asíncrona y realizando la llamada al web service...
+    public void execute(QueueableContext context) {
+        
+        // Programación defensiva; no se continúa
+        // si la lista de contactos es vacía.
+        if (contactsToUpdate.size() == 0) {
+            return;
+        }
+        
+        // Se actualizan los correos de los contactos proporcionados.
+        String new_email = GetEmailFromProContacto(ProContactoGlobal.MyIdProContacto);
+        if (new_email != null) {
+            for (Contact c : contactsToUpdate) {
+                c.Email = new_email;
+            }
+            update contactsToUpdate;
+        }
+    }
+    
+    // Consulta el web service de ProContacto para obtener el correo
+    // asociado a la persona cuyo 'idprocontacto' es proporcionado.
+    public static String GetEmailFromProContacto(String idprocontacto) {
+        
+        // Definición de la petición HTTP a realizar.
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint('https://procontacto-reclutamiento-default-rtdb.firebaseio.com/contacts.json');
+        request.setMethod('GET');
+        
+        // Envío de la petición mediante objeto HTTP.
+        Http http = new Http();
+        HttpResponse response = http.send(request);
+        
+        // Caso exitoso...
+        if (response.getStatusCode() == 200) {
+            Map<String, Object> result = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
+            Map<String, Object> user = (Map<String, Object>) result.get(idprocontacto);
+            
+            // Caso 'idprocontacto' no se encuentra en la lista.
+            if (user == null) {
+                System.debug('Función ProContactoHandler@GetEmailFromProContacto devolvió null por error: \'idprocontacto\' no forma parte de la respuesta del WS.');
+                return null;
+            }
+            
+            // En caso exitoso, se devuelve el correo correspondiente.
+            return (String) user.get('email');
+        }
+        
+        // Caso de error...
+        else {
+            System.debug('Función ProContactoHandler@GetEmailFromProContacto devolvió null por error: ' + response.getStatusCode() + ' ' + response.getStatus());
+            return null;
+        }
+    }
+}

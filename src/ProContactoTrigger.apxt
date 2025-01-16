@@ -1,0 +1,22 @@
+// Ejercicio 7 de la evaluación práctica presentada para ProContacto.
+// Trigger para actualizar el campo email de un Contact que ha sido
+// creado o modificado, y cuyo campo 'idprocontacto' es igual al "propio".
+// Obtener el email del web service de ProContacto, usando este 'idprocontacto'.
+trigger ProContactoTrigger on Contact (after insert, after update) {
+    
+    // Contactos que están siendo aquí agregados o actualizados, y cuyo
+    // idprocontacto es igual al propio. Además, sólo se modificarán
+    // Contactos que no tienen correo electrónico especificado pues,
+    // de lo contrario, se crean loops al estar actualizando a los
+    // mismos Contactos dentro del Queueable correspondiente.
+    Contact[] c = [SELECT ID FROM Contact
+                   WHERE ID in :Trigger.New
+                   AND idprocontacto__c = :ProContactoGlobal.MyIdProContacto
+                   AND Email = null];
+    
+    // Si el batch en efecto tiene al menos un contacto, se manda al
+    // Queueable correspondiente para actualizar sus respectivos correos.
+    if (c.size() > 0) {
+        System.enqueueJob(new ProContactoHandler(c));
+    }
+}

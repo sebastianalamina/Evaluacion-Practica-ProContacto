@@ -1,0 +1,7 @@
+// Variables globales para el ejercicio 7 de la
+// evaluación práctica presentada para ProContacto...
+global class ProContactoGlobal {
+    global static String MyIdProContacto = '-OGCe47ypruh26oxhnvX';
+    global static String SomeoneElsesIdProContacto = '-OBbRTCM2-76g2mjI33x';
+    global static String NobodysIdProContacto = '-OHWj39qprnu49alrmxH';
+}

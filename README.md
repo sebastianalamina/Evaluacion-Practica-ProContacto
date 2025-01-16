@@ -391,3 +391,25 @@ En el siguiente diagrama se relacionan los objetos aquí descritos. A considerar
     No. Si bien Salesforce ofrece soluciones para empresas que pueden integrarse con un ERP, no provee como tal un producto ERP, pues Salesforce no se enfoca en conectar sistemas financieros y operacionales en una base de datos central, sino en gestionar las interacciones con los clientes.
 
 ## Ejercicio 7 :heavy_check_mark:
+
+Para la ejecución de este ejercicio, es necesario:
+
+1.  Dentro de una _org_, dirigirse a **Setup** -> **Remote Site Settings** -> **New Remote Site**, y guardar (**Save**) el URL proporcionado:
+
+    - Para el URL, introducir forzosamente `https://procontacto-reclutamiento-default-rtdb.firebaseio.com/contacts.json`
+    - Para el nombre, introducir algo como `procontacto_ws`
+    - Para la descripción, opcionalmente introducir algo como `Web service de ProContacto.`
+    - Dejar marcada la casilla **Active**.
+
+2.  Dentro de la misma _org_, definir los archivos dentro de `src/` según corresponda:
+
+    - Crear un _Apex Trigger_ sobre _sObjects_ `Contact` con el código de `ProContactoTrigger.apxt`.
+    - Crear una _Apex Class_ con el código de `ProContactoHandler.apxc`.
+    - Crear una _Apex Class_ con el código de `ProContactoGlobal.apxc`.
+
+      Opcionalmente:
+
+    - Crear una _Apex Class_ con el código de `ProContactoTest.apxc`.
+    - Crear una _Static Resource_ de _MIME Type_ `text_plain` con el código de `GetProContactoResource.txt`.
+
+3.  Realizar pruebas manuales (o ejecutar las pruebas opcionales, considerando que éstas sólo testean parcialmente la funcionalidad deseada).
